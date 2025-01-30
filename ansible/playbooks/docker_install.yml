@@ -1,0 +1,27 @@
+---
+- name: Install Docker
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Docker using convenience script
+      shell: curl -fsSL https://get.docker.com/ | sh
+      args:
+        creates: /usr/bin/docker
+    - name: Start and enable Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add user to Docker group
+      user:
+        name: $USER
+        groups: docker
+        append: yes
+    
+    - name: Create Docker Dir
+      shell: mkdir -p ~/docker
+      args:
+        creates: ~/docker
+      become: no

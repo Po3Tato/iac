@@ -1,0 +1,44 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - curl
+  - git
+
+users:
+  - name: ${user} # replace
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_authorized_keys:
+      - ${ssh_key}
+    lock_passwd: true
+    passwd: '*'
+
+timezone: UTC
+
+write_files:
+  - path: /root/scripts/ts-startup.sh
+    permissions: '0700'
+    content: |
+      #!/usr/bin/env bash
+      set -e  # Exit on any error
+      echo "Starting Tailscale installation at $(date)"
+      if ! command -v tailscale &> /dev/null; then
+          curl -fsSL https://tailscale.com/install.sh | sh
+      fi
+      if ! tailscale status &> /dev/null; then
+          tailscale up --ssh --authkey ${ts_auth}
+      fi
+      echo "Tailscale installation completed at $(date)"
+
+runcmd:
+  - echo "Starting initialization script at $(date)"
+  - mkdir -p /root/scripts
+  - chmod 0700 /root/scripts/ts-startup.sh
+  - sleep 15  # Give some time for network and system to fully initialize
+  - bash -x /root/scripts/ts-startup.sh
+  - echo "Installation completed at $(date)"
+  - sed -i 's/^%sudo.*/%sudo ALL=(ALL) NOPASSWD:ALL/' /etc/sudoers
+  - passwd -l root

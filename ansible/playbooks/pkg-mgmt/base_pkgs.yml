@@ -1,0 +1,6 @@
+---
+base_pkgs_deb:
+  - vim
+
+base_pkgs_rpm:
+  - vim
