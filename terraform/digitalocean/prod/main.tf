@@ -24,7 +24,7 @@ locals {
 }
 
 module "prod_droplets" {
-  source = "../../modules/droplet"
+  source = "../modules/droplet"
 
   environment   = "prod"
   droplet_count = var.droplet_count
@@ -36,7 +36,7 @@ module "prod_droplets" {
 }
 
 module "prod_waf" {
-  source = "../../modules/https-waf"
+  source = "../modules/https-waf"
 
   environment  = "prod"
   droplet_ids = module.prod_droplets.droplet_ids
