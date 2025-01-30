@@ -1,5 +1,5 @@
 ssh_key_name  = "admin-ssh-key"
-admin_user = "musoadmin"
+user = "admin"
 project_id    = "project-id-here"
 region        = "nyc1"
 droplet_count = 1

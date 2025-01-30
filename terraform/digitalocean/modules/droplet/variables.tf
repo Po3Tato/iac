@@ -19,6 +19,6 @@ variable "user_data" {
 }
 
 variable "project_id" {
-  description = "Project ID for resource assignment"
+  description = "DigitalOcean project ID"
   type        = string
 }

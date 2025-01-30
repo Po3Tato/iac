@@ -7,8 +7,8 @@ packages:
   - git
 
 users:
-  - name: ${user} # replace
-    groups: sudo
+  - name: ${user}
+    groups: sudo,adm  # Add to adm group for log access
     shell: /bin/bash
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh_authorized_keys:
@@ -20,7 +20,8 @@ timezone: UTC
 
 write_files:
   - path: /root/scripts/ts-startup.sh
-    permissions: '0600'
+    permissions: '0500'  # More restrictive permissions
+    owner: root:root    # Explicitly set owner
     content: |
       #!/usr/bin/env bash
       set -e  # Exit on any error
@@ -33,12 +34,24 @@ write_files:
       fi
       echo "Tailscale installation completed at $(date)"
 
+  - path: /etc/ssh/sshd_config.d/hardening.conf
+    permissions: '0600'
+    owner: root:root
+    content: |
+      PermitRootLogin no
+      PasswordAuthentication no
+      X11Forwarding no
+      AllowTcpForwarding no
+
 runcmd:
   - echo "Starting initialization script at $(date)"
   - mkdir -p /root/scripts
-  - chmod 0700 /root/scripts/ts-startup.sh
-  - sleep 15  # Give some time for network and system to fully initialize
+  - chmod 0700 /root/scripts
+  - systemctl enable fail2ban
+  - systemctl start fail2ban
+  - sleep 15
   - bash -x /root/scripts/ts-startup.sh
   - echo "Installation completed at $(date)"
   - sed -i 's/^%sudo.*/%sudo ALL=(ALL) NOPASSWD:ALL/' /etc/sudoers
   - passwd -l root
+  - systemctl restart sshd

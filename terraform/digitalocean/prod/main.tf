@@ -18,13 +18,13 @@ data "digitalocean_ssh_key" "dev-ssh-key" {
 locals {
   user_data = templatefile("${path.module}/cloud-init.yml", {
     ts_auth  = var.ts_auth
-    user = var.admin_user
+    user = var.user
     ssh_key  = trimspace(data.digitalocean_ssh_key.dev-ssh-key.public_key)
   })
 }
 
 module "prod_droplets" {
-  source = "../modules/droplet"
+  source = "../../modules/droplet"
 
   environment   = "prod"
   droplet_count = var.droplet_count
@@ -36,7 +36,7 @@ module "prod_droplets" {
 }
 
 module "prod_waf" {
-  source = "../modules/https-waf"
+  source = "../../modules/https-waf"
 
   environment  = "prod"
   droplet_ids = module.prod_droplets.droplet_ids
