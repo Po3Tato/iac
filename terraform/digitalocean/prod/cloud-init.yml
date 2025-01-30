@@ -20,7 +20,7 @@ timezone: UTC
 
 write_files:
   - path: /root/scripts/ts-startup.sh
-    permissions: '0700'
+    permissions: '0600'
     content: |
       #!/usr/bin/env bash
       set -e  # Exit on any error

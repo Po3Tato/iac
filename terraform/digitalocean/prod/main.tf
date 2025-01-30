@@ -36,7 +36,7 @@ module "prod_droplets" {
 }
 
 module "prod_waf" {
-  source = "../modules/waf"
+  source = "../modules/https-waf"
 
   environment  = "prod"
   droplet_ids = module.prod_droplets.droplet_ids
