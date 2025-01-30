@@ -8,7 +8,7 @@ resource "digitalocean_droplet" "base_vm" {
   monitoring = true
   ssh_keys   = [var.ssh_key_id]
   user_data  = var.user_data
-  tags       = concat(["power by OpenTofu", var.environment], var.droplet_tags)
+  tags       = concat([var.environment], var.droplet_tags)
 }
 
 resource "digitalocean_project_resources" "project_assignment" {
