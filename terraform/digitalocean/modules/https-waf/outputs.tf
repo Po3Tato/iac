@@ -1,4 +1,3 @@
-# modules/https-waf/outputs.tf
 output "firewall_id" {
   value       = digitalocean_firewall.waf.id
   description = "The ID of the created firewall"
