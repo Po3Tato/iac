@@ -11,6 +11,7 @@ Personal Infrastructure as Code repository.
 - OpenTofu/Terraform
 - Ansible
 - DigitalOcean API token
+- Vultr API token
 - Tailscale auth key
 
 ## Usage
