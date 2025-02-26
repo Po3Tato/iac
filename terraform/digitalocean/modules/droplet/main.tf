@@ -1,4 +1,4 @@
-# Base droplet module
+# Base droplet config
 resource "digitalocean_droplet" "base_vm" {
   count      = var.droplet_count
   image      = "ubuntu-24-04-x64"
