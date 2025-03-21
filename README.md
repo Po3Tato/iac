@@ -1,31 +1,24 @@
-# IaC-playbooks
+# HomeOps-as-Code
+A GitOps appraoch to managing my homelab.
 
-Personal Infrastructure as Code repository.
+## Overview
+
+| Feature | Tool | Method | Status |
+| :--- | :--- | :--- | :---: |
+| Deploy VMs from templates on Proxmox | just | cli | ✅ |
+| Deploy VMs on Proxmox  | just | cli | ✅ |
+| Configure/baseline VMs and other servers | Ansible | Forgejo/Jenkins/GitHub Actions | ❌ |
+| Deploy Docker workloads | Docker Compose | Jenkins | ❌ |
+| Configure/bootstrap Kubernetes nodes | just | taloscli | ❌ |
+| Deploy Kubernetes workloads | Talos | FluxCD | ❌ |
+
+#### Key
+| Icon | Meaning |
+| --- | --- | 
+| ❌ | Not started |
+| 🚧 | In-Progress |
+| ✅ | Complete |
 
 ## Components
-- Ansible for configuration management
-- Terraform for infrastructure provisioning
-- Cloud-init for initial server setup
-
-## Prerequisites
-- OpenTofu/Terraform
-- Ansible
-- DigitalOcean API token
-- Vultr API token
-- Tailscale auth key
-
-## Usage
-1. Copy and Configure variables in `terraform.tfvars.example`
-2. Initialize Terraform:
-   ```bash
-   terraform init
-   ```
-3. Apply configuration:
-   ```bash
-   terraform apply
-   ```
-
-## Security Notes
-- All servers are configured with:
-  - SSH key-only access through Tailscale VPN
-  - Root login disabled
+- Ansible playbooks for container deployments
+- Terraform playbooks for hybrid infra provisioning
